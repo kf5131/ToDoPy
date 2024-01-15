@@ -1,1 +1,2 @@
-add database: sqlite
+add database: sqlite - fix bug
+print in colors 
