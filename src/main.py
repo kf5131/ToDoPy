@@ -1,25 +1,4 @@
-class TodoList:
-    def __init__(self):
-        self.tasks = []
-
-    def add_task(self, task):
-        self.tasks.append(task)
-        print(f'Task "{task}" added.')
-
-    def view_tasks(self):
-        if not self.tasks:
-            print('No tasks found.')
-        else:
-            print('Tasks:')
-            for i, task in enumerate(self.tasks, start=1):
-                print(f'{i}. {task}')
-
-    def mark_task_completed(self, task_index):
-        if 1 <= task_index <= len(self.tasks):
-            completed_task = self.tasks.pop(task_index - 1)
-            print(f'Task "{completed_task}" marked as completed.')
-        else:
-            print('Invalid task index.')
+from todolist import TodoList
 
 def main():
     todo_list = TodoList()
