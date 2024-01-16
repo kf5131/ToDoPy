@@ -1,2 +1,3 @@
 add database: sqlite - fix bug
 print in colors 
+change to model-view-presenter architecture
