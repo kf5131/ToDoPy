@@ -28,14 +28,14 @@ git clone <https://github.com/your-username/todo-list.git>
 Navigate to the project directory:
 
 ```bash
-Copy code
+# Copy code
 cd todo-list
 ```
 
 Run the application:
 
 ```bash
-Copy code
+# Copy code
 python todo_list.py
 ```
 
