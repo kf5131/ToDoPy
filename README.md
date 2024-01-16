@@ -13,30 +13,31 @@ Exit: Close the application.
 Getting Started
 
 ## Prerequisites
+
 Python 3.x installed on your machine.
 
 ## Usage
 
 Clone the repository:
 
-'''bash
-Copy code
-git clone https://github.com/your-username/todo-list.git
-'''
+```bash
+# Clone the repository
+git clone <https://github.com/your-username/todo-list.git>
+```
 
 Navigate to the project directory:
 
-'''bash
+```bash
 Copy code
 cd todo-list
-'''
-
+```
 
 Run the application:
-'''bash
+
+```bash
 Copy code
 python todo_list.py
-'''
+```
 
 Follow the on-screen instructions to interact with the to-do list.
 
