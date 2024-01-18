@@ -1,49 +1,41 @@
 import sqlite3
 
-
 class TodoList:
-    def __init__(self):
-        self.tasks = []
-        self.conn = sqlite3.connect('todo.db')
+    def __init__(self, db_name='todo.db'):
+        self.conn = sqlite3.connect(db_name)
+        self.cursor = self.conn.cursor()
         self.create_table()
 
     def create_table(self):
-        cursor = self.conn.cursor()
-        cursor.execute('''
+        self.cursor.execute('''
             CREATE TABLE IF NOT EXISTS tasks (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                task TEXT
+                task TEXT NOT NULL,
+                completed INTEGER DEFAULT 0
             )
         ''')
         self.conn.commit()
 
     def add_task(self, task):
-        self.tasks.append(task)
-        cursor = self.conn.cursor()
-        cursor.execute('INSERT INTO tasks (task) VALUES (?)', (task,))
+        self.cursor.execute('INSERT INTO tasks (task) VALUES (?)', (task,))
         self.conn.commit()
         print(f'Task "{task}" added.')
 
     def view_tasks(self):
-        if not self.tasks:
+        self.cursor.execute('SELECT * FROM tasks WHERE completed = 0')
+        tasks = self.cursor.fetchall()
+
+        if not tasks:
             print('No tasks found.')
         else:
             print('Tasks:')
-            for i, task in enumerate(self.tasks, start=1):
-                print(f'{i}. {task}')
+            for task in tasks:
+                print(f'{task[0]}. {task[1]}')
 
-    def mark_task_completed(self, task_index):
-        if 1 <= task_index <= len(self.tasks):
-            completed_task = self.tasks.pop(task_index - 1)
-            cursor = self.conn.cursor()
-            cursor.execute('DELETE FROM tasks WHERE id = ?', (task_index,))
-            self.conn.commit()
-            print(f'Task "{completed_task}" marked as completed.')
-        else:
-            print('Invalid task index.')
-
-    def __del__(self):
-        self.conn.close()
+    def mark_task_completed(self, task_id):
+        self.cursor.execute('UPDATE tasks SET completed = 1 WHERE id = ?', (task_id,))
+        self.conn.commit()
+        print(f'Task with ID {task_id} marked as completed.')
 
 def main():
     todo_list = TodoList()
@@ -63,13 +55,15 @@ def main():
         elif choice == '2':
             todo_list.view_tasks()
         elif choice == '3':
-            task_index = int(input('Enter the task index to mark as completed: '))
-            todo_list.mark_task_completed(task_index)
+            task_id = int(input('Enter the task ID to mark as completed: '))
+            todo_list.mark_task_completed(task_id)
         elif choice == '4':
             print('Exiting the Todo List app. Goodbye!')
             break
         else:
             print('Invalid choice. Please enter a number between 1 and 4.')
+
+    todo_list.conn.close()
 
 if __name__ == "__main__":
     main()
